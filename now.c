@@ -1,4 +1,6 @@
 #include <time.h>
+#include <stdio.h>
+#include "main.h"
 
 size_t timesize() {
 	return sizeof(time_t);
@@ -15,4 +17,8 @@ time_t now(void) {
 
 void nowp(time_t* t) {
 	*t = now();
+}
+
+void uset(long a, time_t t, long b) {
+	printf("prm: %lx %" PRIt " %lx\n", a, t, b);
 }

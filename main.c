@@ -1,16 +1,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <time.h>
-
-size_t timesize();
-time_t now(void);
-void nowp(time_t* t);
-
-#ifdef __USE_TIME_BITS64
-#define PRIt "016llx"
-#else
-#define PRIt "08lx"
-#endif
+#include "main.h"
 
 static int ok;
 
@@ -25,5 +16,13 @@ int main(void) {
 	printf("ret: %" PRIt "\n", t);
 	nowp(&t);
 	printf("ptr: %" PRIt "\n", t);
+	uset(0,
+#ifdef __USE_TIME_BITS64
+	0x6464646432323232,
+#else
+	0x32323232,
+#endif
+	0);
+
 	return 0;
 }
