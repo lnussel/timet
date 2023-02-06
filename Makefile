@@ -1,13 +1,15 @@
-CFLAGS=-m32 -fPIC -Wall -g -O0
+CFLAGS=-m32 -fPIC -Wall -g -O2 -D_FORTIFY_SOURCE=2 -fstack-protector
 CFLAGS64=$(CFLAGS) -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64
 
 all: main main64
 
 test: all
 	LD_LIBRARY_PATH=$$PWD/32 ./main
-	LD_LIBRARY_PATH=$$PWD/64 ./main
-	LD_LIBRARY_PATH=$$PWD/32 ./main64
 	LD_LIBRARY_PATH=$$PWD/64 ./main64
+	@echo -e "\e[34m### this one gets garbage\e[m"
+	LD_LIBRARY_PATH=$$PWD/32 ./main64
+	@echo -e "\e[34m### the following should crash\e[m"
+	LD_LIBRARY_PATH=$$PWD/64 ./main
 
 clean:
 	rm -rf 32 64 main main64
